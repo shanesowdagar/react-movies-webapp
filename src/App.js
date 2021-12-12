@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import AppRoutes from './navigation/AppRoutes';
 import HomeScreen from './screens/HomeScreen';
 
 const GlobalStyles = createGlobalStyle`
@@ -20,7 +21,8 @@ function App() {
 	return (
 		<div>
 			<GlobalStyles />
-			<HomeScreen />
+			<AppRoutes />
+			{/* <HomeScreen /> */}
 		</div>
 	);
 }
