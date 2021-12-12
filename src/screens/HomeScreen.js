@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GetMoviesByPopularity } from '../api/api';
+import Loader from '../components/Loader';
 import MovieCard from '../components/MovieCard';
 
 const Container = styled.div`
@@ -19,10 +20,18 @@ const Title = styled.h1`
 const MoviesList = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	overflow: hidden;
 
 	@media (max-width: 576px) {
 		justify-content: center;
 	}
+`;
+
+const LoadingContainer = styled.div`
+	/* border: 2px solid red; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const HomeScreen = () => {
@@ -33,21 +42,29 @@ const HomeScreen = () => {
 
 				const { data: result } = response;
 				setMovies(result.results);
+				setLoading(false);
 			})
 			.catch((e) => console.log(e));
 	}, []);
 
 	const [movies, setMovies] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	return (
 		<Container>
 			<Title>Movies App</Title>
 
-			<MoviesList>
-				{movies.map((movie, index) => (
-					<MovieCard key={index} movie={movie} />
-				))}
-			</MoviesList>
+			{loading ? (
+				<LoadingContainer>
+					<Loader />
+				</LoadingContainer>
+			) : (
+				<MoviesList>
+					{movies.map((movie, index) => (
+						<MovieCard key={index} movie={movie} />
+					))}
+				</MoviesList>
+			)}
 		</Container>
 	);
 };
